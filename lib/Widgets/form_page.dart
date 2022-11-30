@@ -13,10 +13,12 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  // final GlobalKey<ScaffoldState> _scaffoldKey =  GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // key: _scaffoldKey,
         appBar: AppBar(
           title: Text("Form"),
         ),
@@ -54,8 +56,11 @@ class _FormPageState extends State<FormPage> {
                   RegExp emailRegex = RegExp(
                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
                   if (!emailRegex.hasMatch(emailController.text)) {
+                    showInSnackBar("Please enter valid Email Address");
                     print("Please enter valid Email Address");
-                  } else if (passwordController.text.isEmpty) {
+                  } else if (passwordController.text.isEmpty)
+                  {
+                    showInSnackBar("Please enter valid Password.");
                     print("Enter Password");
                   } else if (!passwordRegex.hasMatch(passwordController.text)) {
                   } else {
@@ -68,7 +73,27 @@ class _FormPageState extends State<FormPage> {
                 },
                 child: Text("Login"))
           ],
-        )));
+        )
+        )
+    );
+  }
+
+  void showInSnackBar(String value) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          value,
+
+          style: TextStyle(color: Colors.black),
+
+
+        ),
+         shape: OutlineInputBorder(borderRadius: BorderRadius.circular(180)),
+        backgroundColor: Colors.red,
+        padding: EdgeInsets.all(45),
+      ),
+    );
+    // _scaffoldKey.currentState!.showSnackBar(SnackBar(content: Text(value)));
   }
 }
 
